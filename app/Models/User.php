@@ -10,6 +10,9 @@ class User extends Model
 {
     use HasFactory;
 
+    // public function getRouteKeyName(){
+    //     return 'username';
+    // }
     /**
      * Get all of the Post for the User
      *

@@ -59,10 +59,10 @@
                 <?php endif; ?>
             </a>
             <div class="bg-white flex flex-col justify-start p-6">
-                <a href="#" class="text-blue-700 text-sm font-bold uppercase pb-4"><?php echo e($post->category->name); ?></a>
+                <a href="<?php echo e(route('blog.categories', $post->category->slug)); ?>" class="text-blue-700 text-sm font-bold uppercase pb-4"><?php echo e($post->category->name); ?></a>
                 <a href="<?php echo e(route('blog.show', $post->id)); ?>" class="text-3xl font-bold hover:text-gray-700 pb-4"><?php echo e($post->title); ?></a>
                 <p href="#" class="text-sm pb-3">
-                    By <a href="#" class="font-semibold hover:text-gray-800"><?php echo e($post->user->name); ?></a>, Published on <?php echo e($post->created_at->diffForHumans()); ?>
+                    By <a href="<?php echo e(route('blog.authors', $post->user->id)); ?>" class="font-semibold hover:text-gray-800"><?php echo e($post->user->name); ?></a>, Published on <?php echo e($post->created_at->diffForHumans()); ?>
 
                 </p>
                 <a href="#" class="pb-6"><?php echo e($post->excerpt); ?>...</a>

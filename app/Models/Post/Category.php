@@ -10,6 +10,11 @@ class Category extends Model
     use HasFactory;
     protected $guarded = ['id'];
 
+    public function getRouteKeyName(){
+        return 'slug';
+    }
+
+
     /**
      * Get all of the Post for the Category
      *

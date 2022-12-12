@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{ EController, BlogController };
+use App\Models\Post\{ Post, Category };
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +57,7 @@ Route::prefix('Blog')
     ->controller(BlogController::class)
     ->group(function(){
         Route::get('/', 'index')->name('index');
+
         Route::get('/show/{id}', 'show')->name('show');
         Route::get('/create', 'create')->name('create');
         Route::get('/edit/{product}', 'edit')->name('edit');
@@ -63,3 +66,24 @@ Route::prefix('Blog')
         Route::post('/update/{id}', 'update')->name('update');
         Route::post('/destroy/{id}', 'destroy')->name('destroy');
 });
+
+Route::prefix('Blog')
+    ->name('blog.')
+    ->group(function(){
+        Route::get('/categories/{category}', function(Category $category){
+            return view('Blogs.index', [
+                'title' => 'Blog Posts',
+                'icon' => 'Blog/icon.png',
+                'posts' => Post::where('category_id', $category->id)->with(['user', 'category'])->latest()->paginate(5)
+            ]);
+        })->name('categories');
+        
+        Route::get('/authors/{user}', function(User $user){
+            return view('Blogs.index', [
+                'title' => 'Blog Posts',
+                'icon' => 'Blog/icon.png',
+                'posts' => Post::where('user_id', $user->id)->with(['user', 'category'])->latest()->paginate(5)
+            ]);
+        })->name('authors');
+});
+
