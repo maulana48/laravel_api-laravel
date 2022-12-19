@@ -1,5 +1,5 @@
-@extends('components.parent')
-@section('content')
+
+<?php $__env->startSection('content'); ?>
     
 	<div class="d-flex my-4">
 		<h1 class="text-center text-green-300 text-[30px] font-bold">Edit Product</h1>
@@ -19,36 +19,81 @@
 				<p class="mt-2 text-sm text-gray-400">Lorem ipsum is placeholder text.</p>
 			</div>
 			<form class="mt-8 space-y-3" action="" method="POST" enctype="multipart/form-data">
-                @csrf
+                <?php echo csrf_field(); ?>
 						<div class="grid grid-cols-1 space-y-2">
 							<label class="text-sm font-bold text-gray-500 tracking-wide">Nama</label>
-								<input class="text-base p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500" type="" placeholder="Masukkan nama produk" @error('nama') is-invalid @enderror" name="nama" id="nama" required autofocus value="{{ old('nama') }}">
+								<input class="text-base p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500" type="" placeholder="Masukkan nama produk" <?php $__errorArgs = ['nama'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" name="nama" id="nama" required autofocus value="<?php echo e(old('nama')); ?>">
 
-							@error('nama')
+							<?php $__errorArgs = ['nama'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
 								<div class="invalid-feedback">
-									{{ $message }}
+									<?php echo e($message); ?>
+
 								</div>
-							@enderror
+							<?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
 						</div>
 						<div class="grid grid-cols-1 space-y-2">
 							<label class="text-sm font-bold text-gray-500 tracking-wide">Harga</label>
-								<input class="text-base p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500" type="number" placeholder="Masukkan harga produk" @error('harga') is-invalid @enderror name="harga" id="harga" required autofocus value="{{ old('harga') }}"">
+								<input class="text-base p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500" type="number" placeholder="Masukkan harga produk" <?php $__errorArgs = ['harga'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?> name="harga" id="harga" required autofocus value="<?php echo e(old('harga')); ?>"">
 
-							@error('harga')
+							<?php $__errorArgs = ['harga'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
 								<div class="invalid-feedback">
-									{{ $message }}
+									<?php echo e($message); ?>
+
 								</div>
-							@enderror
+							<?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
 						</div>
 						<div class="grid grid-cols-1 space-y-2">
 							<label class="text-sm font-bold text-gray-500 tracking-wide">Diskon</label>
-								<input class="text-base p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500" type="" placeholder="Masukkan diskon produk" @error('diskon') is-invalid @enderror form-siswa name="diskon" id="diskon" autofocus value="{{ old('diskon') }}">
+								<input class="text-base p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500" type="" placeholder="Masukkan diskon produk" <?php $__errorArgs = ['diskon'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?> form-siswa name="diskon" id="diskon" autofocus value="<?php echo e(old('diskon')); ?>">
 
-							@error('diskon')
+							<?php $__errorArgs = ['diskon'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
 								<div class="invalid-feedback">
-									{{ $message }}
+									<?php echo e($message); ?>
+
 								</div>
-							@enderror
+							<?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
 						</div>
 						<div class="grid grid-cols-1 space-y-2">
 										<label class="text-sm font-bold text-gray-500 tracking-wide">Tambahkan Foto</label>
@@ -88,7 +133,7 @@
 	</style>
     <script>
         $.ajax({
-            url: "http://127.0.0.1:8000/api/e-commerce/{{ $id }}",
+            url: "http://127.0.0.1:8000/api/e-commerce/<?php echo e($id); ?>",
             method: '',
             dataType: '',
             success: response => {
@@ -111,7 +156,7 @@
                 }
             }
             $.ajax({
-                url: "http://127.0.0.1:8000/api/e-commerce/update/{{ $id }}",
+                url: "http://127.0.0.1:8000/api/e-commerce/update/<?php echo e($id); ?>",
                 method: "POST",
                 data: form,
                 processData: false,
@@ -127,7 +172,9 @@
             });
         });
 	</script>
-@endsection
+<?php $__env->stopSection(); ?>
     
 
 
+
+<?php echo $__env->make('components.parent', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH E:\New folder\Alkademi\Laravel\api-laravel\resources\views/E-commerce/edit.blade.php ENDPATH**/ ?>

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\File; 
@@ -10,23 +11,22 @@ class EController extends Controller
 {
     public function index(){
         $listBarang = Product::all();
-        return view('E-commerce.index', [
-            'title' => 'E-Commerce',
-            'icon' => 'keranjang.png'
+        return response()->json([
+            'status' => true,
+            'message' => '',
+            'data' => $listBarang
         ]);
     }
     public function show($id){
-        return view('E-commerce.show', [
-            'title' => 'Product Detail',
-            'icon' => 'keranjang.png',
-            'id' => $id
+        $barang = Product::find($id);
+        return response()->json([
+            'status' => true,
+            'message' => '',
+            'data' => $barang
         ]);
     }
     public function create(){
-        return view('E-commerce.create', [
-            'title' => 'Add Product',
-            'icon' => 'keranjang.png',
-        ]);
+        
     }
     public function store(Request $request){
         $rules = [
@@ -40,15 +40,17 @@ class EController extends Controller
             $payload['foto'] = $request->file('foto')->store('img/product', ['disk' => 'public_uploads']);
         }
         Product::create($payload);
-        return redirect()->route('ec.index');
+        $createdProduct = $payload;
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Product berhasil dibuat',
+            'data' => $createdProduct
+        ]);
     }
 
-    public function edit($id){
-        return view('E-commerce.edit', [
-            'title' => 'Edit Product',
-            'icon' => 'keranjang.png',
-            'id' => $id
-        ]);
+    public function edit(Product $product){
+        
     }
 
     public function update(Request $request, Product $product){
@@ -62,12 +64,22 @@ class EController extends Controller
             $payload['foto'] = $request->file('foto')->store('img/product', ['disk' => 'public_uploads']);
         }
         $product->update($payload);
-        return redirect()->route('ec.index');
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Product berhasil diupdate',
+            'data' => $product
+        ]);
     }
 
     public function destroy(Request $request, Product $product){
         File::delete(public_path('uploads/csv/img.png'));
         $product->delete();
-        return redirect()->route('ec.index');
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Product berhasil dihapus',
+            'data' => $product
+        ]);
     }
 }

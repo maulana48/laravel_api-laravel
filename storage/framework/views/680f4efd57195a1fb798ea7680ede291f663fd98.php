@@ -1,5 +1,5 @@
-@extends('components.parent')
-@section('content')
+
+<?php $__env->startSection('content'); ?>
 <div class="d-flex my-4">
     <h1 class="text-center text-green-300 text-[30px] font-bold">Product List</h1>
 </div>
@@ -8,9 +8,9 @@
         Product</a>
 </div>
 <div id="Products" class="flex flex-wrap bg-amber-100 justify-center">
-    {{-- foreach --}}
+    
 
-    {{-- endforeach --}}
+    
 </div>
 <script>
     $.ajax({
@@ -75,4 +75,5 @@
         };
         
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('components.parent', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH E:\New folder\Alkademi\Laravel\api-laravel\resources\views/E-commerce/index.blade.php ENDPATH**/ ?>

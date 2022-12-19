@@ -1,5 +1,5 @@
-@extends('components.parent')
-@section('content')
+
+<?php $__env->startSection('content'); ?>
 
 <!-- Top Bar Nav -->
 <nav class="w-full py-4 bg-blue-800 shadow">
@@ -7,8 +7,8 @@
 
         <nav>
             <ul class="flex items-center justify-between font-bold text-sm text-white uppercase no-underline">
-                <li><a class="hover:text-gray-200 hover:underline px-4" href="{{ route('blog.index') }}">Home</a></li>
-                <li><a class="hover:text-gray-200 hover:underline px-4" href="{{ route('blog.create') }}">Create</a>
+                <li><a class="hover:text-gray-200 hover:underline px-4" href="<?php echo e(route('blog.index')); ?>">Home</a></li>
+                <li><a class="hover:text-gray-200 hover:underline px-4" href="<?php echo e(route('blog.create')); ?>">Create</a>
                 </li>
             </ul>
         </nav>
@@ -48,12 +48,12 @@
     <!-- Posts Section -->
     <section id="posts" class="w-full md:w-2/3 flex flex-col items-center px-3">
 
-        {{-- @foreach ($posts as $post)
-        @endforeach --}}
+        
 
         <!-- Pagination -->
         <div class="flex items-center py-8">
-            {{ $posts->links() }}
+            <?php echo e($posts->links()); ?>
+
         </div>
 
     </section>
@@ -128,5 +128,6 @@
         
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
         
+<?php echo $__env->make('components.parent', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH E:\New folder\Alkademi\Laravel\api-laravel\resources\views/Blogs/index.blade.php ENDPATH**/ ?>

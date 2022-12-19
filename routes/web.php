@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{ EController, BlogController };
+use App\Http\Controllers\{ AuthController, EController, BlogController };
 use App\Models\Post\{ Post, Category };
 use App\Models\User;
 
@@ -21,7 +21,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('user')->group(function(){
+Route::prefix('')
+    ->name('auth.')
+    ->controller(AuthController::class)
+    ->group(function(){
+        Route::any('/login', 'login')->name('login')->middleware('test1');
+        Route::any('/logout', 'logout')->name('logout');
+        Route::any('/registration', 'registration')->name('registration');
+    });
+
+Route::prefix('user')
+    ->middleware('test')
+    ->group(function(){
     Route::get('/', function () {
         return view('user.index', [
             'title' => 'Homepage',
@@ -40,27 +51,29 @@ Route::prefix('user')->group(function(){
 
 Route::prefix('e-commerce')
     ->name('ec.')
+    ->middleware('test')
     ->controller(Econtroller::class)
     ->group(function(){
         Route::get('/', 'index')->name('index');
         Route::get('/show/{id}', 'show')->name('show');
         Route::get('/create', 'create')->name('create');
-        Route::get('/edit/{product}', 'edit')->name('edit');
+        Route::get('/edit/{id}', 'edit')->name('edit');
 
         Route::post('/store', 'store')->name('store');
-        Route::post('/update/{product}', 'update')->name('update');
-        Route::post('/destroy/{product}', 'destroy')->name('destroy');
+        Route::post('/update/{id}', 'update')->name('update');
+        Route::post('/destroy/{id}', 'destroy')->name('destroy');
 });
 
 Route::prefix('Blog')
     ->name('blog.')
+    ->middleware('test')
     ->controller(BlogController::class)
     ->group(function(){
         Route::get('/', 'index')->name('index');
 
         Route::get('/show/{id}', 'show')->name('show');
         Route::get('/create', 'create')->name('create');
-        Route::get('/edit/{product}', 'edit')->name('edit');
+        Route::get('/edit/{id}', 'edit')->name('edit');
 
         Route::post('/store', 'store')->name('store');
         Route::post('/update/{id}', 'update')->name('update');

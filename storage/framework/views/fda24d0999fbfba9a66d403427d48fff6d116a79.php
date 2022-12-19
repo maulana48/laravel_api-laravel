@@ -6,14 +6,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{ $title }}</title>
-    <link rel="icon" href="{{ asset('img/' . $icon) }}">
-    {{-- @vite('resources/css/app.css') --}}
+    <title><?php echo e($title); ?></title>
+    <link rel="icon" href="<?php echo e(asset('img/' . $icon)); ?>">
+    
     <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.4/dist/flowbite.min.css" />
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Tailwind Blog -->
-    {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet"> --}}
+    
     <style>
         @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
 
@@ -43,8 +43,8 @@
 </head>
 <body>
     <div class="container p-[20px]">
-        @yield('content') 
+        <?php echo $__env->yieldContent('content'); ?> 
     </div>
 </body>
 <script src="https://unpkg.com/flowbite@1.5.4/dist/flowbite.js"></script>
-</html>
+</html><?php /**PATH E:\New folder\Alkademi\Laravel\api-laravel\resources\views/components/parent.blade.php ENDPATH**/ ?>

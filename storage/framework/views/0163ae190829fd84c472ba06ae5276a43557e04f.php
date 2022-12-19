@@ -1,5 +1,5 @@
-@extends('components.parent')
-@section('content')
+
+<?php $__env->startSection('content'); ?>
 <div class="container mx-auto px-20 text-black">
 
 <div class="border bg-amber-100 rounded-lg p-6 relative z-10" style="cursor: auto;">
@@ -99,7 +99,7 @@
 
 <script>
         $.ajax({
-            url: "http://127.0.0.1:8000/api/e-commerce/{{ $id }}",
+            url: "http://127.0.0.1:8000/api/e-commerce/<?php echo e($id); ?>",
             method: '',
             dataType: '',
             success: response => {
@@ -111,8 +111,15 @@
                 $('.harga').text(dataProduct.harga);
                 $('.harga1').text(dataProduct.harga + dataProduct.harga / 10);
                 $('.diskon').text(dataProduct.diskon + "% off");
+                $('#alamat').val(dataProduct.alamat);
+                $('#gender').val(dataProduct.gender);
+                $('#tanggal_lahir').val(dataProduct.tanggal_lahir);
+                $('#role').val(dataProduct.role);
+                $('#aktif').val(dataProduct.aktif);
+                // return 0;
             }
         });
 
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('components.parent', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH E:\New folder\Alkademi\Laravel\api-laravel\resources\views/E-commerce/show.blade.php ENDPATH**/ ?>
