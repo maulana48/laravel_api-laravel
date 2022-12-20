@@ -53,11 +53,11 @@
                 </div>
 				<p class="mt-2 text-sm text-gray-400">Lorem ipsum is placeholder text.</p>
 			</div>
-			<form class="mt-8 space-y-3" action="{{ route('blog.update', $post->id) }}" method="POST" enctype="multipart/form-data">
+			<form id="fedit" class="mt-8 space-y-3" method="POST" enctype="multipart/form-data">
 			@csrf
 						<div class="grid grid-cols-1 space-y-2">
 							<label for="title" class="text-sm font-bold text-gray-500 tracking-wide">Title</label>
-								<input class="text-base p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500" type="" placeholder="Insert post title" @error('title') is-invalid @enderror" name="title" id="title" required autofocus value="{{ old('title', $post->title) }}">
+								<input class="text-base p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500" type="" placeholder="Insert post title" @error('title') is-invalid @enderror" name="title" id="title" required autofocus value="{{ old('title') }}">
 
 							@error('title')
 								<div class="invalid-feedback">
@@ -67,7 +67,7 @@
 						</div>
 						<div class="grid grid-cols-1 space-y-2">
 							<label for="slug" class="text-sm font-bold text-gray-500 tracking-wide">Slug</label>
-								<input class="text-base p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500" type="" placeholder="slug" @error('slug') is-invalid @enderror" name="slug" id="slug" required autofocus value="{{ old('slug', $post->slug) }}">
+								<input class="text-base p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500" type="" placeholder="slug" @error('slug') is-invalid @enderror" name="slug" id="slug" required autofocus value="{{ old('slug') }}">
 
 							@error('slug')
 								<div class="invalid-feedback">
@@ -76,23 +76,11 @@
 							@enderror
 						</div>
 						<div class="grid grid-cols-1 space-y-2">
-							<label for="user_id" class="text-sm font-bold text-gray-500 tracking-wide">Select User</label>
-                                <select class="text-base p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500" name="user_id" id="user">
-                                        <option value="{{ $post->user->id }}" selected>{{ $post->user->name }}</option>
-                                </select>
-
-							@error('user_id')
-								<div class="invalid-feedback">
-									{{ $message }}
-								</div>
-							@enderror
-						</div>
-						<div class="grid grid-cols-1 space-y-2">
 							<label for="category_id" class="text-sm font-bold text-gray-500 tracking-wide">Select Category</label>
                                 <select class="text-base p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500" name="category_id" id="category">
-                                        <option disabled @if(!old('category_id', $post->category_id)) selected @endif> -- select an option -- </option>
+                                        <option disabled @if(!old('category_id')) selected @endif> -- select an option>
                                     @foreach($categories as $category)
-                                        @if(old('category_id', $post->category_id) == $category->id))
+                                        @if(old('category_id'))
                                         <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
                                         @else
                                         <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -108,7 +96,7 @@
 						</div>
 						<div class="grid grid-cols-1 space-y-2">
 							<label for="body" class="text-sm font-bold text-gray-500 tracking-wide">Body</label>
-								<textarea class="text-base p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500" type="text" placeholder="" @error('body') is-invalid @enderror name="body" id="body" required autofocus value="{{ old('body') }}">{{ $post->body }}</textarea>
+								<textarea class="text-base p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500" type="text" placeholder="" @error('body') is-invalid @enderror name="body" id="body" required autofocus value="{{ old('body') }}"></textarea>
 
 							@error('body')
 								<div class="invalid-feedback">
@@ -125,7 +113,7 @@
 										<div class="flex flex-auto max-h-48 w-2/5 mx-auto -mt-10 justify-center">
 										<img class="has-mask h-36 object-center" src="https://img.freepik.com/free-vector/image-upload-concept-landing-page_52683-27130.jpg?size=338&ext=jpg" alt="freepik image">
 										</div>
-										<p class="pointer-none text-gray-500 "><span class="text-sm">Drag and drop</span> files here <br /> or <a href="" id="" class="text-blue-600 hover:underline">select a file</a> from your computer</p>
+										<p class="pointer-none text-gray-500 "><span class="text-sm">Drag and drop</span> files here <br /> or <a id="" class="text-blue-600 hover:underline">select a file</a> from your computer</p>
 									</div>
 									<input type="file" name="image" id="image" class="hidden">
 								</label>
@@ -137,7 +125,7 @@
 						<div>
 							<button type="submit" class="my-5 w-full flex justify-center bg-blue-500 text-gray-100 p-4  rounded-full
 										font-semibold  focus:outline-none focus:shadow-outline hover:bg-blue-600 shadow-lg cursor-pointer transition ease-in duration-300">
-							Create
+							Edit
 						</button>
 						</div>
 			</form>
@@ -151,6 +139,21 @@
 		}
 	</style>
     <script>
+		$.ajax({
+			url: "http://127.0.0.1:8000/api/blog/edit/{{ $post->id }}",
+			method: '',
+			dataType: '',
+			success: response => {
+				let dataPost = response.post;
+				
+				$('#fedit').attr({action: `/api/blog/update/${dataPost.id}`});
+				$('#title').val(dataPost.title);
+				$('#slug').val(dataPost.slug);
+				$('#category').val(dataPost.category_id).change();
+				$('#body').text(dataPost.body);
+			}
+		});
+
         const title = document.querySelector("#title");
         const slug = document.querySelector("#slug");
         const image = document.querySelector(".form-image");
@@ -164,6 +167,33 @@
         image.addEventListener("click", function() {
             document.getElementById('image').click()
          });
-		
+
+        $('#fedit').submit(function(event){
+            event.preventDefault();
+            var form = $(this);
+            var url = form.attr('action');
+            
+            form = new FormData(this);
+            for (const i of form.entries()) {
+                if(!i[1]){
+                    alert (i[0] + ' tidak boleh kosong');
+                }
+            }
+            $.ajax({
+                url: url,
+                method: "POST",
+                data: form,
+                processData: false,
+                contentType: false,
+                success: _ => {
+                    console.log('SUCCESS');
+                    window.location.href = "/Blog/show/{{ $post->id }}";
+                },
+                error: err => {
+                    console.log('ERROR');
+                    console.log(err);
+                }
+            });
+        });
     </script>
 @endsection

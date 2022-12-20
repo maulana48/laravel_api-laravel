@@ -7,8 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Post\{ Post, Category };
 use App\Models\User;
 Use Illuminate\Support\Str;
-use Illuminate\Support\Facades\File; 
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\{ Auth, File, DB };
 
 class BlogController extends Controller
 {
@@ -36,8 +35,7 @@ class BlogController extends Controller
         return response()->json([
             'status' => true,
             'message' => '',
-            'categories' => Category::all(),
-            'users' => User::all()
+            'categories' => Category::all()
         ]);
     }
 
@@ -56,9 +54,10 @@ class BlogController extends Controller
             'user_id' => 'required',
             'body' => 'required',
         ];
-        $validatedData = $request->validate($rules);
+
+        $validatedData = $request->all();
         $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200, '...');
-        
+
         if($request->file('image')){
             $validatedData['image'] = $request->file('image')->store('img/Blog', ['disk' => 'public_uploads']);
         }
@@ -132,7 +131,8 @@ class BlogController extends Controller
             'user_id' => 'required',
             'body' => 'required',
         ];
-        $validatedData = $request->validate($rules);
+        $validatedData = $request->all();
+
         if($request->image){
             $validatedData['image'] = $request->file('image')->store('img/Blog', ['disk' => 'public_uploads']);
         }

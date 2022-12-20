@@ -89,44 +89,36 @@
 
 <script>
     $.ajax({
-            url: 'http://127.0.0.1:8000/api/blog/',
-            method: '',
-            dataType: '',
-            success: response => {
-                $.ajax({
-                        url: `http://127.0.0.1:8000/api/blog/?page=${response.data.current_page}`,
-                        method: '',
-                        dataType: '',
-                        success: responses => {
-                            let posts = responses.data.data;
-                            let htmlString = '';
-                            console.log(responses.data.current_page);
-                            for(let post of posts){
-                                htmlString += `<article class="flex flex-col shadow my-4">
-                                    <!-- Article Image -->
-                                    <a href="${post.image}" class="hover:opacity-75">
-                                        <img src="${ post.image ? "/" + post.image :  "https://source.unsplash.com/collection/1346951/1000x500?sig=1"}">
-                                    </a>
-                                    <div class="bg-white flex flex-col justify-start p-6">
-                                        <a href="categories/${post.category.slug}" class="text-blue-700 text-sm font-bold uppercase pb-4">${post.category.name}</a>
-                                        <a href="show/${post.id}" class="text-3xl font-bold hover:text-gray-700 pb-4">${post.title}</a>
-                                        <p href="#" class="text-sm pb-3">
-                                            By <a href="authors/${post.user.id}" class="font-semibold hover:text-gray-800">${post.user.name}</a>, Published on ${new Date(post.created_at)}
-                                        </p>
-                                        <a href="#" class="pb-6">${post.excerpt}...</a>
-                                        <a href="show/${post.id}" class="uppercase text-gray-800 hover:text-black">Continue
-                                            Reading <i class="fas fa-arrow-right"></i></a>
-                                    </div>
-                                </article>`
-                            }
-                            let html = $.parseHTML(htmlString)
-                            $('#posts').prepend(html)
-                        }
-                });
+        url: `http://127.0.0.1:8000/api/blog/`,
+        method: '',
+        dataType: '',
+        success: response => {
+            let posts = response.data.data;
+            let htmlString = '';
+            console.log(response.data.current_page);
+            for(let post of posts){
+                htmlString += `<article class="flex flex-col shadow my-4">
+                    <!-- Article Image -->
+                    <a href="${post.image}" class="hover:opacity-75">
+                        <img src="${ post.image ? "/" + post.image :  "https://source.unsplash.com/collection/1346951/1000x500?sig=1"}">
+                    </a>
+                    <div class="bg-white flex flex-col justify-start p-6">
+                        <a href="/Blog/categories/${post.category.slug}" class="text-blue-700 text-sm font-bold uppercase pb-4">${post.category.name}</a>
+                        <a href="/Blog/show/${post.id}" class="text-3xl font-bold hover:text-gray-700 pb-4">${post.title}</a>
+                        <p href="#" class="text-sm pb-3">
+                            By <a href="/Blog/authors/${post.user.id}" class="font-semibold hover:text-gray-800">${post.user.name}</a>, Published on ${new Date(post.created_at)}
+                        </p>
+                        <a href="#" class="pb-6">${post.excerpt}...</a>
+                        <a href="/Blog/show/${post.id}" class="uppercase text-gray-800 hover:text-black">Continue
+                            Reading <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>`
             }
+            let html = $.parseHTML(htmlString)
+            $('#posts').prepend(html)
+        }
     });
         
-    </script>
+</script>
 
 @endsection
-        

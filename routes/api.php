@@ -32,11 +32,13 @@ Route::prefix('e-commerce')
 });
 
 Route::prefix('blog')
-    ->name('blog.')
+    ->name('api-blog.')
     ->controller(BlogController::class)
     ->group(function () {
         Route::get('/', 'index')->name('list');
+        Route::get('/edit/{post}', 'edit')->name('edit');
         Route::get('/show/{post}', 'show')->name('detail');
+        Route::get('/create', 'create')->name('detail');
 
         Route::get('/categories/{category}', 'categories')->name('category');
         Route::get('/authors/{user}', 'authors')->name('author');

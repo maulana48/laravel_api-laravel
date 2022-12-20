@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Post\{ Post, Category };
 use App\Models\User;
 Use Illuminate\Support\Str;
-use Illuminate\Support\Facades\File; 
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\{ Auth, File, DB };
 
 class BlogController extends Controller
 {
@@ -36,7 +35,7 @@ class BlogController extends Controller
             'title' => 'Create Posts',
             'icon' => 'Blog/icon.png',
             'categories' => Category::all(),
-            'users' => User::all()
+            'userId' => Auth::id()
         ]);
     }
 
