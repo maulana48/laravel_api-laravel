@@ -21,7 +21,7 @@ class BlogController extends Controller
     {
         return response()->json([
             'status' => true,
-            'message' => 'Data users berhasil didapatkan',
+            'message' => 'Data posts berhasil didapatkan',
             'data' => Post::with(['user', 'category'])->latest()->paginate(5)
         ]);
     }
@@ -67,7 +67,7 @@ class BlogController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'User berhasil ditambahkan',
+            'message' => 'Post berhasil ditambahkan',
             'data' => $post
         ]);
     }
@@ -87,14 +87,12 @@ class BlogController extends Controller
         $PVpost = $posts->find($i);
         $i = $id + 1;
         $NXpost = $posts->find($i);
-        $user = $post->user;
 
     
         return response()->json([
             'status' => true,
-            'message' => 'Data user berhasil didapatkan',
-            'post' => $post,
-            'user' => $user,
+            'message' => 'Data post berhasil didapatkan',
+            'post' => $post->load(['user', 'category']),
             'PVpost' => $PVpost,
             'NXpost' => $NXpost,
             'latest' => $latest
@@ -141,7 +139,7 @@ class BlogController extends Controller
         $post = Post::find($id)->update($validatedData);
         return response()->json([
             'status' => true,
-            'message' => 'Data user berhasil diupdate',
+            'message' => 'Data post berhasil diupdate',
             'post' => $post
         ]);
     }
@@ -161,8 +159,32 @@ class BlogController extends Controller
         $post->delete();
         return response()->json([
             'status' => true,
-            'message' => 'Data user berhasil dihapus',
+            'message' => 'Data post berhasil dihapus',
             'post' => $post
+        ]);
+    }
+
+
+
+
+
+
+
+    public function categories(Category $category)
+    {
+        return response()->json([
+            'status' => true,
+            'message' => 'Menampilkan post berdasarkan category',
+            'data' => Post::where('category_id', $category->id)->with(['user', 'category'])->latest()->paginate(5)
+        ]);
+    }
+
+    public function authors(User $user)
+    {
+        return response()->json([
+            'status' => true,
+            'message' => 'Menampilkan post berdasarkan penulis',
+            'data' => Post::where('user_id', $user->id)->with(['user', 'category'])->latest()->paginate(5)
         ]);
     }
 }

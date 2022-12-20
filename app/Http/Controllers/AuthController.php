@@ -48,10 +48,11 @@ class AuthController extends Controller
 
     public function registration(Request $request){
         if($request->method() == 'GET'){
-            return view('layouts.registration', [
-                'title' => 'registration',
-                'icon' => 'asd'
-            ]);
+            return back();
+            // return view('layouts.registration', [
+            //     'title' => 'registration',
+            //     'icon' => 'asd'
+            // ]);
         }
 
         $rules = [

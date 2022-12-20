@@ -105,13 +105,13 @@
                                 htmlString += `<article class="flex flex-col shadow my-4">
                                     <!-- Article Image -->
                                     <a href="${post.image}" class="hover:opacity-75">
-                                        <img src="/${ post.image ? post.image :  "https://source.unsplash.com/collection/1346951/1000x500?sig=1"}">
+                                        <img src="${ post.image ? "/" + post.image :  "https://source.unsplash.com/collection/1346951/1000x500?sig=1"}">
                                     </a>
                                     <div class="bg-white flex flex-col justify-start p-6">
                                         <a href="categories/${post.category.slug}" class="text-blue-700 text-sm font-bold uppercase pb-4">${post.category.name}</a>
                                         <a href="show/${post.id}" class="text-3xl font-bold hover:text-gray-700 pb-4">${post.title}</a>
                                         <p href="#" class="text-sm pb-3">
-                                            By <a href="/authors/${post.user.id}" class="font-semibold hover:text-gray-800">${post.user.name}</a>, Published on ${post.created_at}
+                                            By <a href="authors/${post.user.id}" class="font-semibold hover:text-gray-800">${post.user.name}</a>, Published on ${new Date(post.created_at)}
                                         </p>
                                         <a href="#" class="pb-6">${post.excerpt}...</a>
                                         <a href="show/${post.id}" class="uppercase text-gray-800 hover:text-black">Continue

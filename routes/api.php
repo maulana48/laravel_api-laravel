@@ -36,7 +36,10 @@ Route::prefix('blog')
     ->controller(BlogController::class)
     ->group(function () {
         Route::get('/', 'index')->name('list');
-        Route::get('/{post}', 'show')->name('detail');
+        Route::get('/show/{post}', 'show')->name('detail');
+
+        Route::get('/categories/{category}', 'categories')->name('category');
+        Route::get('/authors/{user}', 'authors')->name('author');
         
         Route::post('/', 'store')->name('store');
         Route::post('/update/{post}', 'update')->name('update');
